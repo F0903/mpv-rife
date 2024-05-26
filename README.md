@@ -1,6 +1,6 @@
 # MPV RIFE
 
-Intaller for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife), TensorRT AI interpolation, MVTools and [UOSC interface](https://github.com/tomasklaen/uosc).
+Installer for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife), TensorRT AI interpolation, MVTools and [UOSC interface](https://github.com/tomasklaen/uosc).
 
 ## Requirements
 - Powershell 7 or newer.
