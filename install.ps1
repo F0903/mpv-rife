@@ -10,10 +10,10 @@ function Download ($filename, $link) {
 function Get-VS {
     # This script does the majority of the heavy lifting for us, including downloading 7zip and python.
     $VSScriptDest = "install_vs.ps1"
-    Write-Output "Running VapourSynth script..."
+    Write-Host "Running VapourSynth script..."
     Download $VSScriptDest $VapourSynthScriptUrl
     & "./$VSScriptDest" -Unattended -TargetFolder "./"
-    Write-Output "Installing MVTools plugin..."
+    Write-Host "Installing MVTools plugin..."
     & "./python.exe" vsrepo.py update
     & "./python.exe" vsrepo.py install mv
 }
@@ -39,18 +39,18 @@ function Get-Mpv {
 }
 
 function Get-VSRife {
-    Write-Output "Installing PyTorch..."
+    Write-Host "Installing PyTorch..."
     & "./python.exe" -m pip install --pre torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/nightly/cu121"
 
-    Write-Output "Installing TensorRT..."
+    Write-Host "Installing TensorRT..."
     & "./python.exe" -m pip install tensorrt==10.0.1 tensorrt-cu12_bindings==10.0.1 tensorrt-cu12_libs==10.0.1 --extra-index-url "https://pypi.nvidia.com"
 
-    Write-Output "Installing Torch-TensorRT..."
+    Write-Host "Installing Torch-TensorRT..."
     $PyTorchFilename = $PyTorchTensorRTUrl.Split("/")[-1]
     Download $PyTorchFilename $PyTorchTensorRTUrl
     & "./python.exe" -m pip install $PyTorchFilename
 
-    Write-Output "Installing vs-rife..."
+    Write-Host "Installing vs-rife..."
     & "./python.exe" -m pip install -U vsrife
     & "./python.exe" -m vsrife
 }
@@ -58,3 +58,6 @@ function Get-VSRife {
 Get-VS
 Get-Mpv
 Get-VSRife
+
+Write-Host
+Write-Host "All Done!" $filename -ForegroundColor White -BackgroundColor Green
