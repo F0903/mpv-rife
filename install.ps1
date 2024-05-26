@@ -55,6 +55,6 @@ function Get-VSRife {
     & "./python.exe" -m vsrife
 }
 
-#Get-VS
-#Get-Mpv
-#Get-VSRife
+Get-VS
+Get-Mpv
+Get-VSRife
