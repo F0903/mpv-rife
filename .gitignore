@@ -1,0 +1,6 @@
+*
+!*/
+!portable_config/**/*
+portable_config/cache
+!install.ps1
+!.gitignore
