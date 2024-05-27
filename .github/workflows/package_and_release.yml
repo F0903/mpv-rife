@@ -1,3 +1,4 @@
+#NOTE: this doesn't currently work, due to githubs 2GB restriction on files.
 name: Install and Upload Release
 
 on:
