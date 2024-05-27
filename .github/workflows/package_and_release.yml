@@ -13,11 +13,13 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install
       run: "& ./install.ps1"
-    - run: Write-Output '::set-output name=date::"${{ github.event.repository.updated_at}}".Split("T")[0]'
+    - name: Get Date
+      run: Write-Output date="${{github.event.repository.updated_at}}".Split("T")[0] | Out-File -FilePath $env:GITHUB_PATH -Append
     - name: Package & Upload
       uses: ncipollo/release-action@v1.14.0
       with:
-        name: "mpv-${{ steps.date.outputs.date }}"
+        name: "mpv-$env:date"
+        tag: $env.date
         artifacts: "*"
         makeLatest: true
         omitBody: true
