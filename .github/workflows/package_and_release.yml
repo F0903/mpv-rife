@@ -11,15 +11,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Get Date
+      run: |
+        Write-Output date="${{github.event.repository.updated_at}}".Split("T")[0] | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        Write-Host ${{ steps.outputs.date }}
     - name: Install
       run: "& ./install.ps1"
-    - name: Get Date
-      run: Write-Output date="${{github.event.repository.updated_at}}".Split("T")[0] | Out-File -FilePath $env:GITHUB_PATH -Append
     - name: Package & Upload
       uses: ncipollo/release-action@v1.14.0
       with:
-        name: "mpv-$env:date"
-        tag: $env.date
+        name: "mpv-${{ steps.outputs.date }}"
+        tag: ${{ steps.outputs.date }}
         artifacts: "*"
         makeLatest: true
         omitBody: true
