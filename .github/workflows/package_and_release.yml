@@ -21,7 +21,7 @@ jobs:
     - name: Package & Upload
       uses: ncipollo/release-action@v1.14.0
       with:
-        name: "mpv-${{ steps.outputs.date }}"
+        name: "mpv-${{ steps.get-date.outputs.DATE }}"
         tag: ${{ steps.get-date.outputs.DATE }}
         artifacts: "*"
         makeLatest: true
