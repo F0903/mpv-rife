@@ -15,9 +15,6 @@ jobs:
       id: get-date
       run: |
         "DATE=$('${{github.event.repository.updated_at}}'.Split("T")[0])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-    - name: Print Date
-      run: |
-        Write-Host "Priting date..."
         Write-Host ${{ steps.get-date.outputs.DATE }}
     - name: Install
       run: "& ./install.ps1"
