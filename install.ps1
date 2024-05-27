@@ -4,7 +4,7 @@ $PyTorchTensorRTUrl = "https://github.com/HolyWu/vs-rife/releases/download/v5.0.
 
 function Download ($filename, $link) {
     Write-Host "Downloading" $filename -ForegroundColor Green
-    Invoke-WebRequest -Uri $link -UserAgent [Microsoft.PowerShell.Commands.PSUserAgent]::FireFox -OutFile $filename
+    Invoke-WebRequest -Uri $link -OutFile $filename
 }
 
 function Get-VS {
