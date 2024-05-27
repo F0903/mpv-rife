@@ -18,7 +18,7 @@ function Get-VS {
     & "./python.exe" vsrepo.py install mv
 }
 
-# Based on the function from shinchiro's MPV bootstrap script. (found on the official sourceforge mirror)
+# Heavily modified version of the function from shinchiro's MPV bootstrap script. (found on the official sourceforge mirror)
 function Get-Mpv {
     $rss_link = "https://sourceforge.net/projects/mpv-player-windows/rss?path=/64bit-v3"
 
@@ -27,15 +27,28 @@ function Get-Mpv {
     $latest = $result.rss.channel.item.link[0]
     $tempname = $latest.split("/")[-2]
     $filename = [System.Uri]::UnescapeDataString($tempname)
-    $download_link = "https://download.sourceforge.net/mpv-player-windows/" + $filename
+    $download_link = "https://deac-fra.dl.sourceforge.net/project/mpv-player-windows/64bit-v3/" + $filename + "?viasf=1"
 
     if ($filename -is [array]) {
         $filename = $filename[0]
         $download_link = $download_link[0]
     }
 
-    Download $filename $download_link
-    ./7z.exe -y x $filename
+    $retcode = 1
+    $tries = 0
+    while ($True) {
+        Download $filename $download_link
+        ./7z.exe -y x $filename
+        $retcode = $LastExitCode
+        if ($retcode -eq 0) {
+            break
+        }
+        if ($tries -ge 5) {
+            throw "Could not download and extract MPV archive!"
+        }
+        $tries++
+        Start-Sleep -Seconds 15
+    }
 }
 
 function Get-VSRife {
