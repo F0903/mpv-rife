@@ -1,3 +1,4 @@
+#NOTE: this doesn't currently work, due to githubs 2GB restriction on files.
 name: Install and Upload Release
 
 on:
@@ -11,16 +12,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Get Date
+      id: get-date
+      run: |
+        "DATE=$('${{github.event.repository.updated_at}}'.Split("T")[0])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        Write-Host ${{ steps.get-date.outputs.DATE }}
     - name: Install
       run: "& ./install.ps1"
-    - name: Get Date
-      run: Write-Output date="${{github.event.repository.updated_at}}".Split("T")[0] | Out-File -FilePath $env:GITHUB_PATH -Append
+    - name: Zip
+      run: ./7z.exe a mpv-rife.7z ./
     - name: Package & Upload
       uses: ncipollo/release-action@v1.14.0
       with:
-        name: "mpv-$env:date"
-        tag: $env.date
-        artifacts: "*"
+        name: "mpv-${{ steps.get-date.outputs.DATE }}"
+        tag: ${{ steps.get-date.outputs.DATE }}
+        artifacts: "mpv-rife.7z"
         makeLatest: true
         omitBody: true
         skipIfReleaseExists: true
