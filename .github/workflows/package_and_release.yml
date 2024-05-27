@@ -12,19 +12,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Get Date
+      id: get-date
       run: |
-        "date=$('${{github.event.repository.updated_at}}'.Split("T")[0])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "DATE=$('${{github.event.repository.updated_at}}'.Split("T")[0])" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
     - name: Print Date
       run: |
         Write-Host "Priting date..."
-        Write-Host ${{ steps.outputs.date }}
+        Write-Host ${{ steps.get-date.outputs.DATE }}
     - name: Install
       run: "& ./install.ps1"
     - name: Package & Upload
       uses: ncipollo/release-action@v1.14.0
       with:
         name: "mpv-${{ steps.outputs.date }}"
-        tag: ${{ steps.outputs.date }}
+        tag: ${{ steps.get-date.outputs.DATE }}
         artifacts: "*"
         makeLatest: true
         omitBody: true
