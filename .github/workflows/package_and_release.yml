@@ -18,12 +18,14 @@ jobs:
         Write-Host ${{ steps.get-date.outputs.DATE }}
     - name: Install
       run: "& ./install.ps1"
+    - name: Zip
+      run: ./7z.exe a mpv-rife.7z ./
     - name: Package & Upload
       uses: ncipollo/release-action@v1.14.0
       with:
         name: "mpv-${{ steps.get-date.outputs.DATE }}"
         tag: ${{ steps.get-date.outputs.DATE }}
-        artifacts: "*"
+        artifacts: "mpv-rife.7z"
         makeLatest: true
         omitBody: true
         skipIfReleaseExists: true
