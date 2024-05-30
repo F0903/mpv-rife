@@ -18,8 +18,7 @@ With TensorRT enabled, the first launch of a media file with specific resolution
 ## Configuration
 
 It's recommended that you edit the mpv.conf file in portable_config to match your display.  
-If your GPU struggles to run RIFE, you can try to edit to global variables provided in /portable_config/rife.vpy  
-If TensorRT is enabled (which it is by default) you will need an Nvidia RTX GPU to run this
+If your GPU struggles to run RIFE, you can try to edit to global variables provided in /portable_config/rife.vpy
 
 ## Features
 

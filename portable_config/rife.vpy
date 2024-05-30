@@ -20,10 +20,11 @@ reduced_scale_width_threshold = disable_width_threshold * 0.85
 reduced_scale_height_threshold = disable_height_threshold * 0.85
 reduced_scale = 0.5
 
-# Uses nvidia RT cores. Will require an RTX GPU (not tested on anything other than RTX 4080)
+# Uses Nvidia TensorRT framework which is faster.
 # It also takes a million years to build an RT engine for each resolution and config, but it is much faster than regular.
 gpu_tensorrt = True
 tensorrt_debug = True  # Enable for TensorRT debug logging.
+tensorrt_optimization=5 # 0 is min - 5 is max
 
 gpu_streams = 4  # This settings very quickly explodes your VRAM usage.
 gpu_format = vs.RGBH  # RGBH is faster, RGBS is more accurate
@@ -75,6 +76,7 @@ if not (
         ensemble=ensemble,
         sc=True,
         trt=gpu_tensorrt,
+        trt_optimization_level=tensorrt_optimization,
         trt_debug=tensorrt_debug,
     )
     clip = core.resize.Lanczos(
