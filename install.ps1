@@ -1,6 +1,6 @@
 # These will need updating over time
 $VapourSynthScriptUrl = "https://github.com/vapoursynth/vapoursynth/releases/download/R68/Install-Portable-VapourSynth-R68.ps1"
-$PyTorchTensorRTUrl = "https://github.com/HolyWu/vs-rife/releases/download/v5.0.0/torch_tensorrt-2.4.0.dev20240518+cu121-cp312-cp312-win_amd64.whl"
+$PyTorchTensorRTUrl = "https://github.com/HolyWu/vs-rife/releases/download/v5.1.0/torch_tensorrt-2.4.0.dev20240529+cu124-cp312-cp312-win_amd64.whl"
 
 function Download ($filename, $link) {
     Write-Host "Downloading" $filename -ForegroundColor Green
@@ -13,9 +13,10 @@ function Get-VS {
     Write-Host "Running VapourSynth script..."
     Download $VSScriptDest $VapourSynthScriptUrl
     & "./$VSScriptDest" -Unattended -TargetFolder "./"
-    Write-Host "Installing MVTools plugin..."
-    & "./python.exe" vsrepo.py update
-    & "./python.exe" vsrepo.py install mv
+    Write-Host "Installing VapourSynth plugins..."
+    & "./python" vsrepo.py update
+    & "./python" vsrepo.py install mv
+    & "./python" vsrepo.py install ffms2
 }
 
 # Heavily modified version of the function from shinchiro's MPV bootstrap script. (found on the official sourceforge mirror)

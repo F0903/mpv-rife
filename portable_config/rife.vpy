@@ -17,7 +17,7 @@ disable_fps_threshold = 60
 downscale_res_threshold = (2560, 1440)
 downscale_res = (1920, 1080)
 
-rife_model = "4.17"  # The RIFE model to use. Recommended is 4.17 or 4.16-lite
+rife_model = "4.16.lite"  # The RIFE model to use. Recommended is 4.17 or 4.16.lite
 scale = 1  # Interpolation scale.
 
 # Uses Nvidia TensorRT framework which is faster.
@@ -35,13 +35,12 @@ core = vs.core
 clip = video_in
 
 if container_fps < disable_fps_threshold:
-    expensive = (
+
+    if (
         clip.width >= downscale_res_threshold[0]
         and clip.height >= downscale_res_threshold[1]
-    )
-
-    if expensive:
-        print("Clip is too expensive. Downscaling...")
+    ):
+        print(f"Clip is too expensive. Downscaling to {downscale_res}...")
         clip = core.resize.Lanczos(
             clip=clip, width=downscale_res[0], height=downscale_res[1]
         )
@@ -58,7 +57,7 @@ if container_fps < disable_fps_threshold:
     )
 
     print(
-        f"Using settings:\ngpu_streams={gpu_streams},gpu_format={gpu_format},scale={scale},ensemble={ensemble},gpu_tensorrt={gpu_tensorrt}"
+        f"Using settings:\ngpu_streams={gpu_streams},scale={scale},ensemble={ensemble},gpu_tensorrt={gpu_tensorrt}"
     )
 
     clip = core.resize.Lanczos(clip=clip, format=gpu_format, matrix_in_s="709")
