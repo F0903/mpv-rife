@@ -26,7 +26,7 @@ gpu_tensorrt = True
 tensorrt_debug = False  # Enable for TensorRT debug logging.
 tensorrt_optimization = 0  # 0 is min - 5 is max. This will increase the time it takes to build the RT engine.
 
-gpu_streams = 2  # This settings very quickly explodes your VRAM usage.
+gpu_streams = 2  # This setting very quickly explodes your VRAM usage.
 gpu_format = vs.RGBH  # RGBH is faster, RGBS is more accurate
 ensemble = True  # Produces better results at a decently heavy cost.
 
