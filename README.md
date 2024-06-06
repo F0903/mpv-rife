@@ -15,10 +15,9 @@ Simple installer for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife
 **NOTE:**
 With TensorRT enabled, the first launch of a media file with specific resolution and specific RIFE config will take a million years, but it will launch eventually!
 
-## Configuration
+## Configuration (recommended)
 
-It's recommended that you edit the mpv.conf file in portable_config to match your display.  
-If your GPU struggles to run RIFE, you can try to edit to global variables provided in /portable_config/rife.vpy
+It's recommended that you edit the **mpv.conf** and **rife.vpy** files in **portable_config/** to match your display colorspace. These files include a bunch of settings tailed to my HDR display, which will most likely not look right on others.
 
 ## Features
 
