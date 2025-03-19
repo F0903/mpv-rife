@@ -17,7 +17,7 @@ With TensorRT enabled, the first launch of a media file with specific resolution
 
 ## Configuration (recommended)
 
-It's recommended that you edit the **mpv.conf** and **rife.vpy** files in **portable_config/** to match your display colorspace. These files include a bunch of settings tailed to my HDR display, which will most likely not look right on others.
+It's recommended that you edit the **mpv.conf** and **rife.vpy** files in **portable_config/** to match your preferences, especially the settings related to display colorspaces and HDR.
 
 ## Features
 
