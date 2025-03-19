@@ -1,6 +1,9 @@
 # These will need updating over time
-$VapourSynthScriptUrl = "https://github.com/vapoursynth/vapoursynth/releases/download/R68/Install-Portable-VapourSynth-R68.ps1"
-$PyTorchTensorRTUrl = "https://github.com/HolyWu/vs-rife/releases/download/v5.1.0/torch_tensorrt-2.4.0.dev20240529+cu124-cp312-cp312-win_amd64.whl"
+$VapourSynthScriptUrl = "https://github.com/vapoursynth/vapoursynth/releases/download/R70/Install-Portable-VapourSynth-R70.ps1"
+$PytorchUrl = "https://download.pytorch.org/whl/cu126"
+
+$MpvRssUrl = "https://sourceforge.net/projects/mpv-player-windows/rss?path=/64bit-v3"
+$MpvDownloadBaseUrl = "https://deac-fra.dl.sourceforge.net/project/mpv-player-windows/64bit-v3/"
 
 function Download ($filename, $link) {
     Write-Host "Downloading" $filename -ForegroundColor Green
@@ -21,14 +24,12 @@ function Get-VS {
 
 # Heavily modified version of the function from shinchiro's MPV bootstrap script. (found on the official sourceforge mirror)
 function Get-Mpv {
-    $rss_link = "https://sourceforge.net/projects/mpv-player-windows/rss?path=/64bit-v3"
-
     Write-Host "Fetching RSS feed for mpv" -ForegroundColor Green
-    $result = [xml](New-Object System.Net.WebClient).DownloadString($rss_link)
+    $result = [xml](New-Object System.Net.WebClient).DownloadString($MpvRssUrl)
     $latest = $result.rss.channel.item.link[0]
     $tempname = $latest.split("/")[-2]
     $filename = [System.Uri]::UnescapeDataString($tempname)
-    $download_link = "https://deac-fra.dl.sourceforge.net/project/mpv-player-windows/64bit-v3/" + $filename + "?viasf=1"
+    $download_link = $MpvDownloadBaseUrl + $filename + "?viasf=1"
 
     if ($filename -is [array]) {
         $filename = $filename[0]
@@ -53,16 +54,9 @@ function Get-Mpv {
 }
 
 function Get-VSRife {
-    Write-Host "Installing PyTorch..."
-    & "./python.exe" -m pip install --pre torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/nightly/cu121"
-
-    Write-Host "Installing TensorRT..."
-    & "./python.exe" -m pip install tensorrt==10.0.1 tensorrt-cu12_bindings==10.0.1 tensorrt-cu12_libs==10.0.1 --extra-index-url "https://pypi.nvidia.com"
-
-    Write-Host "Installing Torch-TensorRT..."
-    $PyTorchFilename = $PyTorchTensorRTUrl.Split("/")[-1]
-    Download $PyTorchFilename $PyTorchTensorRTUrl
-    & "./python.exe" -m pip install $PyTorchFilename
+    Write-Host "Installing PyTorch and Torch-TensorRT..."
+    & "./python.exe" -m pip install -U packaging setuptools wheel
+    & "./python.exe" -m pip install -U torch torchvision torch_tensorrt --index-url $PytorchUrl --extra-index-url "https://pypi.nvidia.com"
 
     Write-Host "Installing vs-rife..."
     & "./python.exe" -m pip install -U vsrife
