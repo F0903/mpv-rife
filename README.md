@@ -1,6 +1,6 @@
 # MPV RIFE
 
-Simple PowerShell installer, configuration files for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife) TensorRT interpolation and [UOSC interface](https://github.com/tomasklaen/uosc).
+Simple PowerShell installer and configuration files for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife) interpolation and [uosc interface](https://github.com/tomasklaen/uosc).
 
 ## Requirements
 
