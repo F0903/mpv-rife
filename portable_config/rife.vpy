@@ -17,7 +17,7 @@ disable_fps_threshold = 60
 downscale_res_threshold = (2560, 1440)
 downscale_res = (1920, 1080)
 
-rife_model = "4.16.lite"  # The RIFE model to use. Recommended is 4.17 or 4.16.lite
+rife_model = "flownet_v4.26"  # The RIFE model to use. Recommended ones are flownet_v4.26 or flownet_v4.25.lite
 scale = 1  # Interpolation scale.
 
 # Uses Nvidia TensorRT framework which is faster.
