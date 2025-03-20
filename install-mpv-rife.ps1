@@ -55,12 +55,11 @@ function Get-Mpv {
 
 function Get-VSRife {
     Write-Host "Installing PyTorch and Torch-TensorRT..."
-    & "./python.exe" -m pip install -U packaging setuptools wheel
-    & "./python.exe" -m pip install -U torch torchvision torch_tensorrt --index-url $PytorchUrl --extra-index-url "https://pypi.nvidia.com"
+    & "./python" -m pip install -U packaging setuptools wheel
+    & "./python" -m pip install -U torch torchvision torch_tensorrt --index-url $PytorchUrl --extra-index-url "https://pypi.nvidia.com"
 
     Write-Host "Installing vs-rife..."
-    & "./python.exe" -m pip install -U vsrife
-    & "./python.exe" -m vsrife
+    & "./python" -m pip install -U vsrife
 }
 
 Get-VS
