@@ -8,7 +8,13 @@ Simple PowerShell installer and configuration files for MPV Player with [vs-RIFE
 
 ## Installation
 
-1. Clone the repo (recommended to do this in non-admin directory).
+To install for Windows, it's as simple as the steps below.
+
+For Linux, you would first need to install PowerShell to run the installer. Afterwards you will have to modify the paths in the config to match your installation.
+
+>**NOTE:** The only tested installation path is ``C:\Program Files\mpv``, other paths will require you to modify the config.
+
+1. Clone the repo
 2. Run the script.
 3. Enjoy!
 
