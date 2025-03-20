@@ -1,6 +1,6 @@
 # MPV RIFE
 
-Simple installer for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife) TensorRT interpolation, MVTools and [UOSC interface](https://github.com/tomasklaen/uosc).
+Simple installer for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife) TensorRT interpolation and [UOSC interface](https://github.com/tomasklaen/uosc).
 
 ## Requirements
 
