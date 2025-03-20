@@ -63,9 +63,20 @@ function Get-VSRife {
     & "./python" -m pip install -U vsrife
 }
 
-Get-VS
-Get-Mpv
-Get-VSRife
+try {
+    Get-VS
+    Get-Mpv
+    Get-VSRife
 
-Write-Host
-Write-Host "All Done!" $filename -ForegroundColor White -BackgroundColor Green
+    Write-Host
+    Write-Host "All done! Closing in 5 seconds..." $filename -ForegroundColor White -BackgroundColor Green
+    Start-Sleep -Seconds 5
+}
+catch {
+    Write-Host "Installation failed!" -ForegroundColor Red
+    Write-Output $_
+    Write-Host "Press any key to exit..." -NoNewline
+    [System.Console]::ReadKey()
+}
+
+
