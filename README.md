@@ -1,6 +1,6 @@
 # MPV RIFE
 
-Simple installer for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife) TensorRT interpolation and [UOSC interface](https://github.com/tomasklaen/uosc).
+Simple PowerShell installer for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife) TensorRT interpolation and [UOSC interface](https://github.com/tomasklaen/uosc).
 
 ## Requirements
 
@@ -12,8 +12,10 @@ Simple installer for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife
 2. Run the script.
 3. Enjoy!
 
-**NOTE:**
-With TensorRT enabled, the first launch of a media file with specific resolution and specific RIFE config will take a million years, but it will launch eventually!
+The provided .gitignore file will ignore all other files by default, so you can pull new changes easily if needed.
+
+> **NOTE:**
+> With TensorRT enabled, the first launch of a media file with specific resolution and specific RIFE config will take a million years, but it will launch eventually!
 
 ## Configuration (recommended)
 
