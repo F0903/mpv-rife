@@ -40,9 +40,7 @@ ensemble = False  # Produces better results at a decently heavy cost. NOTE: NOT 
 gpu_index = 0  # Which GPU to use.
 gpu_format = vs.RGBS  # RGBH is faster, RGBS is more accurate
 
-log = open(
-    "./rife_log.txt", mode="w"
-)  # Set to None for no log, or to an output stream to a log file.
+log = None #open("./rife_log.txt", mode="w")  # Set to None for no log, or to an output stream to a log file.
 
 
 core = vs.core
