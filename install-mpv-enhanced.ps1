@@ -78,5 +78,3 @@ catch {
     Write-Host "Press any key to exit..." -NoNewline
     [System.Console]::ReadKey()
 }
-
-

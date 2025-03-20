@@ -1,6 +1,6 @@
-# MPV RIFE
+# MPV Enhanced
 
-Simple PowerShell installer and configuration files for MPV Player with [vs-RIFE](https://github.com/HolyWu/vs-rife) interpolation and [uosc interface](https://github.com/tomasklaen/uosc).
+A simple set of configuration files and scripts that greatly enhances the default MPV experience. Installation is dead simple with a PowerShell installer script that sets everything up for you with minimal configuration needed.
 
 ## Requirements
 
@@ -21,7 +21,7 @@ For Linux, you would first need to install PowerShell to run the installer. Afte
 The provided .gitignore file will ignore all other files by default, so you can pull new changes easily if needed.
 
 > **NOTE:**
-> With TensorRT enabled, the first launch of a media file with specific resolution and specific RIFE config will take a million years, but it will launch eventually!
+> With TensorRT enabled, the first initialization of RIFE with a specific resolution and RIFE config will take a while, but it will play eventually!
 
 ## Configuration (recommended)
 
@@ -29,7 +29,6 @@ It's recommended that you edit the **mpv.conf** and **rife.vpy** files in **port
 
 ## Features
 
-- RIFE interpolation enabled by default with TensorRT.
-- UOSC interface.
-- Autocrop video to fill your whole display with Shift+C.
-- If you stumble across media that for some reason refuses to be played with RIFE, you can disable it with CTRL+\_ (this is CTRL+SHIFT+- on my nordic keyboard)
+- [vs-RIFE](https://github.com/HolyWu/vs-rife) interpolation that can be activated with ``CTRL+SHIFT+R``.
+- [uosc interface](https://github.com/tomasklaen/uosc) interface.
+- Autocrop video to fill your whole display with ``Shift+C``.

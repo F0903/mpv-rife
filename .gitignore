@@ -2,5 +2,5 @@
 !*/
 !portable_config/**/*
 portable_config/cache
-!install.ps1
+!install-mpv-enhanced.ps1
 !.gitignore
