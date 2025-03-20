@@ -36,18 +36,19 @@ function Get-Mpv {
         $download_link = $download_link[0]
     }
 
-    $retcode = 1
     $tries = 0
     while ($True) {
         Download $filename $download_link
         ./7z.exe -y x $filename
         $retcode = $LastExitCode
         if ($retcode -eq 0) {
+            Remove-Item $filename
             break
         }
         if ($tries -ge 5) {
             throw "Could not download and extract MPV archive!"
         }
+
         $tries++
         Start-Sleep -Seconds 15
     }
