@@ -30,5 +30,5 @@ It's recommended that you edit the **mpv.conf** and **rife.vpy** files in **port
 ## Features
 
 - [vs-RIFE](https://github.com/HolyWu/vs-rife) interpolation that can be activated with ``CTRL+SHIFT+R``.
-- [uosc interface](https://github.com/tomasklaen/uosc) interface.
+- [uosc](https://github.com/tomasklaen/uosc) interface.
 - Autocrop video to fill your whole display with ``Shift+C``.
