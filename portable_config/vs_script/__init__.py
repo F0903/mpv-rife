@@ -1,0 +1,1 @@
+# VapourSynth script utilities package

@@ -4,6 +4,19 @@ from fractions import Fraction
 from enum import Enum, auto
 import vapoursynth as vs
 from vsrife import rife
+import sys
+import os
+
+# Add the portable_config directory to Python path to allow importing from vs_script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+if script_dir not in sys.path:
+    sys.path.insert(0, script_dir)
+
+try:
+    from vs_script.target_fps_mode import TargetFpsMode
+except ImportError as e:
+    print(f"Failed to import TargetFpsMode: {e}")
+    raise
 
 
 class ExpensiveClipMode(Enum):
@@ -12,17 +25,22 @@ class ExpensiveClipMode(Enum):
     NORMAL = auto()  # Interpolate the clip normally.
 
 
-rife_model = "4.26"  # The RIFE model to use. Recommended ones are 4.26 or 4.25.lite
+rife_model = (
+    "4.26"  # The RIFE model to use. Recommended ones are 4.26, 4.25 or 4.25.lite
+)
 scale = 1  # Interpolation scale.
-disable_fps_threshold = 60  # Disable when above threshold.
-target_fps = 60
-target_fps_frac = Fraction(target_fps).limit_denominator(1000)
+
+
+# Target FPS mode. Can be TargetFpsMode.fixed_fps(*target_fps*) or TargetFpsMode.fixed_multiplier(*multiplier*)
+target_mode = TargetFpsMode.fixed_multiplier(2)
+disable_fps_threshold = 60  # Disable when source media is above threshold.
 
 # You can change these to better match your display or source media.
 output_format = vs.YUV420P10
 output_colorspace = vs.MATRIX_BT2020_NCL
 output_transfer = vs.TRANSFER_BT2020_10
 output_primaries = vs.PRIMARIES_BT2020
+
 
 # Resolution threshold for what determines if a clip is "expensive".
 expensive_res_threshold = (1920, 1080)
@@ -33,9 +51,8 @@ expensive_clip_handling = ExpensiveClipMode.DOWNSCALE
 # Resolution to downscale to if expensive_clip_handling is "downscale".
 downscale_res = (1920, 1080)
 
-
 # Uses Nvidia TensorRT framework which is faster.
-# It also takes a bit to build an RT engine for each resolution and config (if using static shapes), but it is much faster than regular.
+# It also takes a million years to build an RT engine for each resolution and config, but it is much faster than regular.
 tensorrt = True
 tensorrt_debug = False  # Enable for TensorRT debug logging.
 tensorrt_optimization = 3  # 0 is min - 5 is max. This will increase the time it takes to build the RT engine.
@@ -61,14 +78,14 @@ tensorrt_max_shape = [
 
 
 gpu_index = 0  # Which GPU to use.
-gpu_format = vs.RGBS  # RGBH is faster, RGBS is more accurate
+gpu_format = vs.RGBH  # RGBH is faster, RGBS is more accurate
 
-log = None  # open("./rife_log.txt", mode="w")  # Set to None for no log, or to an output stream to a log file.
+
+log =  None #open("./rife_log.txt", mode="w")  # Set to None for no log, or to an output stream to a log file.
 
 
 core = vs.core
 clip = video_in
-
 
 def print_log(*values: object):
     if not log:
@@ -76,7 +93,12 @@ def print_log(*values: object):
     print(*values, file=log)
 
 
+# Main interpolation logic
 if container_fps < disable_fps_threshold:
+    print_log(
+        f"Containers FPS '{container_fps}' is below {disable_fps_threshold}. Interpolating..."
+    )
+
     set_width = None
     set_height = None
 
@@ -92,16 +114,20 @@ if container_fps < disable_fps_threshold:
     vec = core.mv.Analyse(sup, blksize=8, isb=True)
     clip = core.mv.SCDetection(clip=clip, vectors=vec, thscd1=240, thscd2=130)
 
-    target_ratio_frac = target_fps_frac / Fraction(container_fps).limit_denominator(
-        1000
-    )
+    container_fps_frac = Fraction(container_fps).limit_denominator(100)
+    print_log(f"Container FPS fraction: {container_fps_frac.numerator}/{container_fps_frac.denominator}={float(container_fps_frac)}")
+
+    target_fps_frac = target_mode.get_fps_fraction(container_fps_frac).limit_denominator(100)
+    [target_num, target_den] = target_fps_frac.as_integer_ratio()
+    print_log(f"Target FPS fraction: {target_fps_frac.numerator}/{target_fps_frac.denominator}={float(target_fps_frac)}")
+
+    dest_fps_frac = container_fps_frac * target_fps_frac
+    dest_fps_frac = dest_fps_frac.limit_denominator(100)
+    [dest_num, dest_den] = dest_fps_frac.as_integer_ratio()
+    print_log(f"Destination FPS fraction: {dest_fps_frac.numerator}/{dest_fps_frac.denominator}={float(dest_fps_frac)}")
 
     print_log(
-        f"Target frac={target_ratio_frac.numerator}/{target_ratio_frac.denominator}={target_ratio_frac.numerator/target_ratio_frac.denominator}"
-    )
-
-    print_log(
-        f"Using settings:\nscale={scale},ensemble={ensemble},gpu_index={gpu_index},gpu_tensorrt={tensorrt}"
+        f"Using settings:\nscale: {scale},ensemble={ensemble},gpu_index={gpu_index},gpu_tensorrt={tensorrt}"
     )
 
     original_size = (clip.width, clip.height)
@@ -122,8 +148,8 @@ if container_fps < disable_fps_threshold:
     clip = rife(
         clip=clip,
         model=rife_model,
-        factor_num=target_ratio_frac.numerator,
-        factor_den=target_ratio_frac.denominator,
+        factor_num=target_num,
+        factor_den=target_den,
         device_index=gpu_index,
         scale=scale,
         ensemble=ensemble,
@@ -146,7 +172,9 @@ if container_fps < disable_fps_threshold:
     )
 
     clip = core.std.AssumeFPS(
-        clip=clip, fpsnum=target_fps_frac.numerator, fpsden=target_fps_frac.denominator
+        clip=clip,
+        fpsnum=dest_num,
+        fpsden=dest_den,
     )
     print_log(f"Final clip: {clip}")
 
