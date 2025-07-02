@@ -61,6 +61,10 @@ function Get-VSRife {
 
     Write-Host "Installing vs-rife..."
     & "./python" -m pip install -U vsrife
+
+    # vs-rife auto-download is not working as of now, so we just download all manually.
+    Write-Host "Downloading vs-rife models..."
+    & "./python" -m vsrife
 }
 
 try {
