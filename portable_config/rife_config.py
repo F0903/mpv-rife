@@ -15,7 +15,7 @@ from vs_script.expensive_clip_mode import ExpensiveClipMode
 # =============================================================================
 
 # The RIFE model to use. Recommended ones are 4.26, 4.25 or 4.25.lite
-rife_model = "4.26"
+rife_model = "4.25.lite"
 
 # Interpolation scale
 scale = 1
@@ -51,6 +51,7 @@ output_primaries = vs.PRIMARIES_BT2020
 # =============================================================================
 
 # Resolution threshold for what determines if a clip is "expensive"
+# Anything ABOVE this resolution will be considered expensive.
 expensive_res_threshold = (3840, 2160)
 
 # How do we handle expensive clips?
@@ -107,4 +108,4 @@ tensorrt_max_shape = [
 # =============================================================================
 
 # Log file path. Set to None for no log, or to an output stream to a log file
-log = open("./rife_log.txt", "w")
+log = None #open("./rife_log.txt", "w")

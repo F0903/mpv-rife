@@ -24,6 +24,7 @@ def print_log(*values: object):
     if not config.log:
         return
     print(*values, file=config.log)
+    config.log.flush()  # Force flush to ensure output is written immediately
 
 def interpolate(clip: vs.VideoNode) -> vs.VideoNode:
     original_size = (clip.width, clip.height)
@@ -33,8 +34,8 @@ def interpolate(clip: vs.VideoNode) -> vs.VideoNode:
     print_log(f"Original format: {original_format}")
 
     if (
-        clip.width >= config.expensive_res_threshold[0]
-        and clip.height >= config.expensive_res_threshold[1]
+        clip.width > config.expensive_res_threshold[0]
+        and clip.height > config.expensive_res_threshold[1]
     ):
         # Clip is considered "expensive"
         match config.expensive_clip_handling:
