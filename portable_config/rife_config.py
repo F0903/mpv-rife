@@ -51,7 +51,7 @@ output_primaries = vs.PRIMARIES_BT2020
 # =============================================================================
 
 # Resolution threshold for what determines if a clip is "expensive"
-expensive_res_threshold = (1920, 1080)
+expensive_res_threshold = (3840, 2160)
 
 # How do we handle expensive clips?
 expensive_clip_handling = ExpensiveClipMode.DOWNSCALE
@@ -59,6 +59,9 @@ expensive_clip_handling = ExpensiveClipMode.DOWNSCALE
 # Resolution to downscale to if expensive_clip_handling is "downscale"
 downscale_res = (1920, 1080)
 
+# To use scene change detection or not
+sc = True
+sc_threshold = 0.15
 
 # =============================================================================
 # GPU and TensorRT Settings
@@ -90,7 +93,7 @@ tensorrt_static_shape = True
 tensorrt_min_shape = [128, 128]
 
 # Optimized size of dynamic shape
-tensorrt_opt_shape = [1920, 1080]
+tensorrt_opt_shape = [3840, 2160]
 
 # Max size of dynamic shape
 tensorrt_max_shape = [

@@ -11,8 +11,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 if script_dir not in sys.path:
     sys.path.insert(0, script_dir)
 
-from . import rife_config as config
-from vs_script.target_fps_mode import TargetFpsMode
+import rife_config as config
 from vs_script.expensive_clip_mode import ExpensiveClipMode
 
 
@@ -29,6 +28,12 @@ def print_log(*values: object):
     print(*values, file=config.log)
 
 def interpolate(clip: vs.VideoNode) -> vs.VideoNode:
+    original_size = (clip.width, clip.height)
+    original_format = clip.format
+
+    print_log(f"Original size: {original_size}")
+    print_log(f"Original format: {original_format}")
+
     if (
         clip.width >= config.expensive_res_threshold[0]
         and clip.height >= config.expensive_res_threshold[1]
@@ -47,10 +52,6 @@ def interpolate(clip: vs.VideoNode) -> vs.VideoNode:
                 return clip
             case ExpensiveClipMode.NORMAL:
                 print_log("Clip is considered expensive, but ExpensiveClipHandling is set to NORMAL. Interpolating normally...")
-
-    sup = core.mv.Super(clip, pel=1)
-    vec = core.mv.Analyse(sup, blksize=8, isb=True)
-    clip = core.mv.SCDetection(clip=clip, vectors=vec, thscd1=240, thscd2=130)
 
     container_fps_frac = Fraction(container_fps).limit_denominator(100)  # type: ignore[name-defined]
     print_log(
@@ -76,11 +77,6 @@ def interpolate(clip: vs.VideoNode) -> vs.VideoNode:
         f"Using settings:\nscale: {config.scale},ensemble={config.ensemble},gpu_index={config.gpu_index},gpu_tensorrt={config.tensorrt}"
     )
 
-    original_size = (clip.width, clip.height)
-    original_format = clip.format
-    print_log(f"Original size: {original_size}")
-    print_log(f"Original format: {original_format}")
-
     # Change format for RIFE
     clip = core.resize.Lanczos(
         clip=clip,
@@ -97,7 +93,8 @@ def interpolate(clip: vs.VideoNode) -> vs.VideoNode:
         device_index=config.gpu_index,
         scale=config.scale,
         ensemble=config.ensemble,
-        sc=False,
+        sc=config.sc,
+        sc_threshold=config.sc_threshold,
         trt=config.tensorrt,
         trt_optimization_level=config.tensorrt_optimization,
         trt_static_shape=config.tensorrt_static_shape,
@@ -123,9 +120,9 @@ def interpolate(clip: vs.VideoNode) -> vs.VideoNode:
     return clip
 
 # Main interpolation logic
-if container_fps < disable_fps_threshold:  # type: ignore[name-defined]
+if container_fps < config.disable_fps_threshold:  # type: ignore[name-defined]
     print_log(
-        f"Containers FPS '{container_fps}' is below {disable_fps_threshold}. Interpolating..."  # type: ignore[name-defined]
+        f"Containers FPS '{container_fps}' is below {config.disable_fps_threshold}. Interpolating..."  # type: ignore[name-defined]
     )
 
     clip = video_in  # type: ignore[name-defined]

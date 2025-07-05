@@ -18,8 +18,7 @@ function Get-VS {
     & "./$VSScriptDest" -Unattended -TargetFolder "./"
     Write-Host "Installing VapourSynth plugins..."
     & "./python" vsrepo.py update
-    & "./python" vsrepo.py install mv
-    & "./python" vsrepo.py install ffms2
+    & "./python" vsrepo.py install com.vapoursynth.misc
 }
 
 # Heavily modified version of the function from shinchiro's MPV bootstrap script. (found on the official sourceforge mirror)

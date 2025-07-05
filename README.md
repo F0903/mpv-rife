@@ -18,7 +18,7 @@ For Linux, you would first need to install PowerShell to run the installer. Afte
 2. Run the script.
 3. Enjoy!
 
-The provided .gitignore file will ignore all other files by default, so you can pull new changes easily if needed.
+The provided .gitignore file will ignore all other files by default, so you can pull new changes easily if needed. (some changes might need a reinstall)
 
 > **NOTE:**
 > With TensorRT enabled, the first initialization of RIFE with a specific resolution and RIFE config will take a while, but it will play eventually!
