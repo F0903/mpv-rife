@@ -1,6 +1,10 @@
+# Ignore everything except the portable_config directory, install script and gitignore file
+
 *
 !*/
 !portable_config/**/*
 portable_config/cache
 !install-mpv-enhanced.ps1
 !.gitignore
+
+__pycache__

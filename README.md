@@ -25,7 +25,7 @@ The provided .gitignore file will ignore all other files by default, so you can 
 
 ## Configuration (recommended)
 
-It's recommended that you edit the **mpv.conf** and **rife.vpy** files in **portable_config/** to match your preferences, especially the settings related to display colorspaces and HDR.
+It's recommended that you edit the **mpv.conf** and **rife_config.py** files in **portable_config/** to match your preferences, especially the settings related to display colorspaces and HDR.
 
 ## Features
 
