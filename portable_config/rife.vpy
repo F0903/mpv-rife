@@ -1,5 +1,3 @@
-# Loosely based on https://raw.githubusercontent.com/hooke007/MPV_lazy/50ebf2c6570aa2db45bb158c3da2cbc8e3fb013e/portable_config/vs/rife_2x.vpy
-
 import sys
 import os
 from fractions import Fraction
