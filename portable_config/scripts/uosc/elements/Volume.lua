@@ -215,7 +215,7 @@ function Volume:destroy()
 end
 
 function Volume:get_visibility()
-	if state.is_image then return 0 end
+	if not state.is_idle and not state.has_audio then return 0 end
 	return self.slider.pressed and 1 or Elements:maybe('timeline', 'get_is_hovered') and -1
 		or Element.get_visibility(self)
 end
@@ -242,6 +242,7 @@ end
 function Volume:on_display() self:update_dimensions() end
 function Volume:on_prop_border() self:update_dimensions() end
 function Volume:on_prop_title_bar() self:update_dimensions() end
+function Volume:on_prop_volume_max() self:update_dimensions() end
 function Volume:on_controls_reflow() self:update_dimensions() end
 function Volume:on_options() self:update_dimensions() end
 
